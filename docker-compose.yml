@@ -1,0 +1,53 @@
+version: "3.2"
+services:
+#DB1*****************************************  
+  postgres-io:
+    image: postgres:12
+    container_name: postgres-io
+    volumes:
+      - $HOME/data/postgres-data-io:/var/lib/postgresql/data
+    networks:
+      - io
+    environment:
+         - POSTGRES_PASSWORD=postgres
+         - POSTGRES_USER=postgres
+         - POSTGRES_DB=io-db
+    user: ${CURRENT_UID}
+    restart: always
+#APP1*****************************************
+  io:
+    image: rahulguna10/io-iq:2021-01
+    container_name: io
+    volumes:
+      - $HOME/data/io-app-logs:/opt/logs/
+    expose:
+      - 9090
+    ports:
+      - 9090:9090
+    networks:
+      - io
+    environment:
+      - spring.datasource.url=jdbc:postgresql://postgres-io:5432/io-db
+    user: ${CURRENT_UID}
+    restart: always
+    depends_on:
+      - postgres-io 
+#APP2*****************************************
+  io-workflowengine:
+    image: rahulguna10/io-workflowengine:2021-01
+    container_name: io-workflowengine
+    volumes:
+      - $HOME/data/workflowengine-logs:/opt/logs/
+    expose:
+      - 9091
+    ports:
+      - 9091:9091
+    networks:
+      - workflowengine
+    user: ${CURRENT_UID}
+    restart: always
+
+#########NETWORKS##########
+networks:
+  io:
+  workflowengine:
