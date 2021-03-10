@@ -1,0 +1,10 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo ================Build Stage================
+artifacts:
+  files:
+     - aws_stack.yml
+     - docker-compose.yml
