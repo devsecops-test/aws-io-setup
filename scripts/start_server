@@ -1,0 +1,8 @@
+#!/bin/bash
+cd /home/ubuntu/deploy
+password=$(aws ssm get-parameters --region us-east-2 --names IO_DOCKER_TOKEN --with-decryption --query Parameters[0].Value)
+password=`echo $password | sed -e 's/^"//' -e 's/"$//'`
+docker login --username rahulguna10 --password $password
+docker pull rahulguna10/io-iq:2021-01
+docker pull rahulguna10/io-workflowengine:2021-01
+docker-compose up -d
