@@ -8,3 +8,7 @@ artifacts:
   files:
      - aws_stack.yml
      - docker-compose.yml
+     - appspec.yml
+     - scripts/install_dependencies
+     - scripts/start_server
+     - scripts/stop_server
