@@ -28,6 +28,8 @@ services:
       - io
     environment:
       - spring.datasource.url=jdbc:postgresql://postgres-io:5432/io-db
+      - spring.datasource.username=postgres
+      - spring.datasource.password=postgres
     user: ${CURRENT_UID}
     restart: always
     depends_on:
